@@ -1,0 +1,20 @@
+<h1>Tick Tock</h1>
+<div class="flex-space-between">
+    <h2>Task 1</h2>
+    <label class="switch" (click)="track($event)" [class.active]="active">
+        <span class="switch__slider"></span>
+    </label>
+</div>
+<hr>
+<div class="timer" *ngIf="timer">
+    <span class="big-text">{{timer.hours | number:'2.0-0'}}:{{timer.minutes | number:'2.0-0'}}</span>
+</div>
+
+<div class="flex-space-between" *ngFor="let tick of ticks">
+    <span>{{tick.tickInAt | date:'shortTime'}} - {{tick.tockOutAt | date:'shortTime'}}</span>
+    <span *ngIf="tick.duration">{{tick.duration | number:'1.2-2'}} hours</span>
+</div>
+<div class="flex-space-between total" *ngIf="totalDuration">
+    <h2>total</h2>
+    <div><span class="big-text">{{totalDuration | number : '1.2-2'}}</span> hours</div>
+</div>
