@@ -9,6 +9,7 @@ import { Tick } from '../../classes/tick';
   styleUrls: ['./task.component.scss']
 })
 export class TaskComponent implements OnInit {
+    taskName: string;
     now: DateTime = DateTime.local();
     ticks: Tick[] = [];
     timer: any;

@@ -1,6 +1,6 @@
 <h1>Tick Tock</h1>
 <div class="flex-space-between">
-    <h2>Task 1</h2>
+    <h2><input [(ngModel)]="taskName" [ngModelOptions]="{standalone: true}" placeholder="{{taskName ? taskName : 'Task Name'}}" /></h2>
     <label class="switch" (click)="track($event)" [class.active]="active">
         <span class="switch__slider"></span>
     </label>
