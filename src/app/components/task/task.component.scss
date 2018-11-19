@@ -24,10 +24,10 @@ input {
     &::before {
          position: absolute;
          content: '';
-         top: 0;
-         left: 0;
-         bottom: 0;
-         width: 50%;
+         top: -2px;
+         left: -2px;
+         bottom: -2px;
+         width: calc(50% + 4px);
          background-color: white;
          transition: transform .4s ease-in-out;
          border-radius: 50%;
@@ -39,6 +39,7 @@ input {
     display: inline-block;
     width: 50px;
     height: 25px;
+    margin-right: 6px;
     &.active{
         .switch__slider::before {
             transform: translateX(100%);

@@ -34,6 +34,7 @@ export class TaskComponent implements OnInit {
             lastTick.duration  = lastTick.tockOutAt.diff(lastTick.tickInAt, 'hours').hours - 0;
             this.totalDuration += lastTick.duration;
             this.endTimer();
+            if(!this.totalDuration) this.ticks = [];
         } else {
             this.active = true;
             let tick = new Tick;
@@ -44,10 +45,9 @@ export class TaskComponent implements OnInit {
     }
 
     startTimer(tick: Tick): void {
-        this.timer = this.now.diff(tick.tickInAt, ['hours','minutes']);
+        this.timer = this.now.diff(tick.tickInAt, ['hours', 'minutes']);
         setInterval(()=> {
-            this.timer = this.now.diff(tick.tickInAt, ['hours','minutes']);
-            console.log(this.timer.minutes);
+            if(this.active) this.timer = this.now.diff(tick.tickInAt, ['hours','minutes']);
         }, 60000);
     }
 

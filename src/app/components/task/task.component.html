@@ -7,7 +7,7 @@
 </div>
 <hr>
 <div class="timer" *ngIf="timer">
-    <span class="big-text">{{timer.hours | number:'2.0-0'}}:{{timer.minutes | number:'2.0-0'}}</span>
+    <span class="big-text">{{timer.hours | round | number:'2.0-0'}}:{{timer.minutes | round | number:'2.0-0' }}</span>
 </div>
 
 <div class="flex-space-between" *ngFor="let tick of ticks">

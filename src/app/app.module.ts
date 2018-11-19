@@ -4,11 +4,13 @@ import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { TaskComponent } from './components/task/task.component';
+import { RoundPipe } from './pipes/round.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TaskComponent
+    TaskComponent,
+    RoundPipe
   ],
   imports: [
     BrowserModule,
