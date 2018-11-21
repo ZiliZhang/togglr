@@ -12,8 +12,9 @@ const createWindow = () => {
     setTimeout(() => {
         // Create the browser window.
         win = new BrowserWindow({
-            width: 325,
-            'min-height': 500,
+            width: 400,
+            height: 1000,
+            minWidth: 400,
             transparent: true,
             frame: true,
             hasShadow: false

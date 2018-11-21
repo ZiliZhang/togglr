@@ -5,18 +5,21 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { TaskComponent } from './components/task/task.component';
 import { RoundPipe } from './pipes/round.pipe';
+import { ElasticDirective } from './directives/elastic.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskComponent,
-    RoundPipe
+    RoundPipe,
+    ElasticDirective
   ],
   imports: [
     BrowserModule,
     FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ TaskComponent ]
 })
 export class AppModule { }

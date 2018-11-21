@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { DateTime, Duration } from 'luxon';
+import { Component, OnInit, ViewContainerRef} from '@angular/core';
+import { DateTime } from 'luxon';
 
 import { Tick } from '../../classes/tick';
 
@@ -17,7 +17,7 @@ export class TaskComponent implements OnInit {
     active: boolean = false;
 
 
-    constructor() { }
+    constructor(private viewContainerRef: ViewContainerRef) { }
 
     ngOnInit(): void {
         setInterval(()=> {
@@ -30,11 +30,19 @@ export class TaskComponent implements OnInit {
         if(this.active) {
             this.active = false;
             let lastTick = this.ticks[this.ticks.length - 1];
-            lastTick.tockOutAt = this.now;
-            lastTick.duration  = lastTick.tockOutAt.diff(lastTick.tickInAt, 'hours').hours - 0;
-            this.totalDuration += lastTick.duration;
-            this.endTimer();
+            if(lastTick){
+                lastTick.tockOutAt = this.now;
+                lastTick.duration  = lastTick.tockOutAt.diff(lastTick.tickInAt, 'hours').hours - 0;
+                this.totalDuration += lastTick.duration;
+
+                //if the lastTick's duration is 0, then remove it from ticks
+                if(!lastTick.duration) this.ticks.pop();
+            }
+
+            //if the total duration is 0, then clean ticks
             if(!this.totalDuration) this.ticks = [];
+
+            this.endTimer();
         } else {
             this.active = true;
             let tick = new Tick;
@@ -53,6 +61,29 @@ export class TaskComponent implements OnInit {
 
     endTimer(): void {
         this.timer = null;
+    }
+
+    removeTick(tick: Tick){
+        let index = this.ticks.indexOf(tick);
+        if(index > -1) {
+            this.totalDuration -= tick.duration;
+            this.ticks.splice(index , 1);
+
+            if(this.ticks.length == 0) {
+                this.active = false;
+                this.ticks = []
+                this.totalDuration = 0;
+                this.endTimer();
+            }
+        }
+    }
+
+    removeTask(){
+        this.viewContainerRef
+            .element
+            .nativeElement
+            .parentElement
+            .removeChild(this.viewContainerRef.element.nativeElement);
     }
 
 }
