@@ -9,7 +9,6 @@ input, textarea {
     background: none;
     border: none;
     color: white;
-    text-transform: uppercase;
     &::placeholder{
         color: rgba($white, .7);
       }
@@ -20,6 +19,7 @@ input {
     height: 100%;
     font-size: inherit;
     font-family: 'Josefin Sans', Arial, Helvetica, sans-serif;
+    text-transform: uppercase;
 }
 
 textarea {
