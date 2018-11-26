@@ -47,7 +47,7 @@ hr{
 }
 
 ::selection {
-    background: rgba($white, 0.2);
+    background: $white-crystal;
 }
 
 a {
@@ -77,10 +77,10 @@ button {
 
 .btn-primary {
     @extend %circle-btn;
-    background-color: $off-white;
+    background-color: $white-translucent;
 
     &:hover{
-        background-color: rgba($white, 0.5);
+        background-color: $white-semilucent;
     }
 }
 
@@ -89,7 +89,7 @@ button {
     border: 1px solid $white;
     background: none;
     &:hover{
-        background-color: $off-white;
+        background-color: $white-translucent;
     }
 }
 

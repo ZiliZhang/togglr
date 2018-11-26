@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ticktock": {
+    "toggler": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -13,13 +13,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/ticktock",
+            "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -50,18 +49,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ticktock:build"
+            "browserTarget": "toggler:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ticktock:build:production"
+              "browserTarget": "toggler:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ticktock:build"
+            "browserTarget": "toggler:build"
           }
         },
         "test": {
@@ -95,7 +94,7 @@
         }
       }
     },
-    "ticktock-e2e": {
+    "toggler-e2e": {
       "root": "e2e/",
       "projectType": "application",
       "targets": {
@@ -103,11 +102,11 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "ticktock:serve"
+            "devServerTarget": "toggler:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "ticktock:serve:production"
+              "devServerTarget": "toggler:serve:production"
             }
           }
         },
@@ -123,7 +122,7 @@
       }
     }
   },
-  "defaultProject": "ticktock",
+  "defaultProject": "toggler",
   "schematics": {
         "@schematics/angular:component": {
          "prefix": "c",

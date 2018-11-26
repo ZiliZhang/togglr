@@ -10,7 +10,7 @@ input, textarea {
     border: none;
     color: white;
     &::placeholder{
-        color: rgba($white, .7);
+        color: $white-dull;
       }
 }
 
@@ -34,17 +34,17 @@ textarea {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: $off-white;
+    background-color: $white-translucent;
     border-radius: 20px;
     cursor: pointer;
 
     &::before {
          position: absolute;
          content: '';
-         top: -2px;
-         left: -2px;
-         bottom: -2px;
-         width: calc(50% + 4px);
+         top: 3px;
+         left: 3px;
+         bottom: 3px;
+         width: calc(50% - 6px);
          background-color: white;
          transition: transform .4s ease-in-out;
          border-radius: 50%;
@@ -57,8 +57,11 @@ textarea {
     width: 40px;
     height: 20px;
     &.active{
-        .switch__slider::before {
-            transform: translateX(100%);
+        .switch__slider{
+            background-color: $white-semilucent;
+            &::before {
+                transform: translateX(calc(100% + 6px));
+            }
         }
     }
 }

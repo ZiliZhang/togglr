@@ -1,16 +1,29 @@
 {
-  "name": "ticktock",
-  "version": "0.0.0",
+  "name": "toggler",
+  "version": "0.0.1",
+  "author": "Zili Zhang",
+  "description": "An app for tracking task times.",
+  "main": "electron.prod.js",
   "scripts": {
     "ng": "ng",
     "start": "concurrently \"ng serve\" \"npm run electron\"",
     "build": "ng build",
+    "build:prod": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "electron electron.dev"
+    "electron": "electron electron.prod",
+    "postinstall": "electron-builder install-app-deps",
+    "builder": "npm run build:prod && npx electron-builder -mw"
   },
   "private": true,
+  "build": {
+    "productName": "Toggler",
+    "icon": "src/assets/app-icons/icon.png",
+    "directories": {
+      "output": "app-builds"
+    }
+  },
   "dependencies": {
     "@angular/animations": "^6.1.0",
     "@angular/common": "^6.1.0",
@@ -22,7 +35,6 @@
     "@angular/platform-browser-dynamic": "^6.1.0",
     "@angular/router": "^6.1.0",
     "core-js": "^2.5.4",
-    "electron": "^3.0.9",
     "luxon": "^1.6.2",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"
@@ -38,6 +50,8 @@
     "@types/node": "~8.9.4",
     "codelyzer": "~4.3.0",
     "concurrently": "^4.0.1",
+    "electron": "^3.0.9",
+    "electron-builder": "^20.36.2",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~3.0.0",

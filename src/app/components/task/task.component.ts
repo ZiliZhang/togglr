@@ -15,7 +15,7 @@ export class TaskComponent implements OnInit {
     timer: any;
     totalDuration: number = 0;
     active: boolean = false;
-    timerInterval : any;
+    minuteHand : any;
 
 
     constructor(private viewContainerRef: ViewContainerRef) { }
@@ -55,15 +55,14 @@ export class TaskComponent implements OnInit {
 
     startTimer(tick: Tick): void {
         this.timer = this.now.diff(tick.tickInAt, ['hours', 'minutes']);
-        this.timerInterval = setInterval(()=> {
+        this.minuteHand = setInterval(()=> {
             if(this.active) this.timer = this.now.diff(tick.tickInAt, ['hours','minutes']);
-            console.log("Timer of tick"+this.ticks.indexOf(tick));
         }, 60000);
     }
 
     endTimer(): void {
         this.timer = null;
-        clearInterval(this.timerInterval);
+        clearInterval(this.minuteHand);
     }
 
     removeTick(tick: Tick){
