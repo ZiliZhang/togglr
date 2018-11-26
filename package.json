@@ -1,8 +1,8 @@
 {
-  "name": "toggler",
+  "name": "togglr",
   "version": "0.0.1",
   "author": "Zili Zhang",
-  "description": "An app for tracking task times.",
+  "description": "A simple Desktop time tracking widget.",
   "main": "electron.prod.js",
   "scripts": {
     "ng": "ng",
@@ -12,13 +12,13 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "electron": "electron electron.prod",
+    "electron": "electron electron.dev",
     "postinstall": "electron-builder install-app-deps",
     "builder": "npm run build:prod && npx electron-builder -mw"
   },
   "private": true,
   "build": {
-    "productName": "Toggler",
+    "productName": "Togglr",
     "icon": "src/assets/app-icons/icon.png",
     "directories": {
       "output": "app-builds"
