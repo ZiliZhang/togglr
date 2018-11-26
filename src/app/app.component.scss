@@ -1,3 +1,10 @@
+h1 {
+    -webkit-user-select: none;
+    -webkit-app-region: drag;
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+
 .plus-btn {
     display: block;
     margin: 0 auto;
