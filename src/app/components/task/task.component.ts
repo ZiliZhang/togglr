@@ -10,12 +10,12 @@ import { Tick } from '../../classes/tick';
 })
 export class TaskComponent implements OnInit {
     taskName: string;
+    active: boolean = false;
     ticks: Tick[] = [];
     timer: any;
     totalDuration: number = 0;
-    active: boolean = false;
     minuteHand : any;
-    delay: number = 1000;
+    delay: number = 60000;
 
 
     constructor(private viewContainerRef: ViewContainerRef) { }
@@ -29,15 +29,17 @@ export class TaskComponent implements OnInit {
             let lastTick = this.ticks[this.ticks.length - 1];
             if(lastTick){
                 lastTick.tockOutAt = DateTime.local();
-                lastTick.duration  = lastTick.tockOutAt.diff(lastTick.tickInAt, 'hours').hours - 0;
-                this.totalDuration += lastTick.duration;
-
-                //if the lastTick's duration is 0, then remove it from ticks
-                if(!lastTick.duration) this.ticks.pop();
+                lastTick.duration  = lastTick.tockOutAt.diff(lastTick.tickInAt).as('hours');
+                console.log(lastTick.duration);
+                //if the lastTick's duration is less than 1 minute, then remove it from ticks
+                if(lastTick.duration < 0.0166) {
+                    this.ticks.pop();
+                } else {
+                    this.totalDuration += lastTick.duration;
+                }
             }
-
-            //if the total duration is 0, then clean ticks
-            if(!this.totalDuration) this.ticks = [];
+            //if the total duration is less than 1 minute, then clean ticks
+            if(this.totalDuration < 0.0166) this.ticks = [];
 
             this.endTimer();
         } else {

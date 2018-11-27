@@ -6,30 +6,20 @@ const url = require('url');
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
-//Disable Hardware Acceleration for transparent window on platfrom other than macOS
-//app.disableHardwareAcceleration();
-//app.commandLine.appendArgument('--enable-transparent-visuals --disable-gpu');
-
-const createWindow = () => {
+function createWindow () {
     // set timeout to render the window not until the Angular
     // compiler is ready to show the project
     setTimeout(() => {
         // Create the browser window.
-        let browserOptions = {
+        win = new BrowserWindow( {
             width: 400,
             height: 1000,
             minWidth: 400,
             transparent: true,
+            frame: false,
             hasShadow: false,
             resizable: false
-        };
-
-        //set window to be frameless on macOS
-        if (process.platform == 'darwin') {
-            browserOptions.frame = false;
-        }
-
-        win = new BrowserWindow(browserOptions);
+        });
 
         // and load the app.
         win.loadURL(url.format({
@@ -53,7 +43,9 @@ const createWindow = () => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', ()=>{
+    createWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

@@ -6,27 +6,17 @@ const url = require('url');
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
-//Disable Hardware Acceleration for transparent window on platfrom other than macOS
-//app.disableHardwareAcceleration();
-//app.commandLine.appendArgument('--enable-transparent-visuals --disable-gpu');
-
-const createWindow = () => {
+function createWindow () {
     // Create the browser window.
-    let browserOptions = {
+    win = new BrowserWindow({
         width: 400,
         height: 1000,
         minWidth: 400,
         transparent: true,
+        frame: false,
         hasShadow: false,
         resizable: false
-    };
-
-    //set window to be frameless on macOS
-    if (process.platform == 'darwin') {
-        browserOptions.frame = false;
-    }
-
-    win = new BrowserWindow(browserOptions);
+    });
 
     // and load the index.html of the app.
     win.loadURL(url.format({
@@ -36,10 +26,6 @@ const createWindow = () => {
     }));
 
     //win.webContents.openDevTools();
-
-    win.once('ready-to-show', ()=>{
-        win.show();
-    });
 
     // Emitted when the window is closed.
     win.on('closed', () => {
@@ -73,12 +59,7 @@ const template = [{
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-    if (process.platform !== 'darwin') {
-        setTimeout(createWindow, 1000);
-    } else {
-        createWindow;
-    }
-
+    createWindow();
     Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 });
 
