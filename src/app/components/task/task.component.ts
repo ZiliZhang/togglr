@@ -1,12 +1,15 @@
-import { Component, OnInit, ViewContainerRef} from '@angular/core';
+import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
 import { DateTime } from 'luxon';
 
 import { Tick } from '../../classes/tick';
 
+import { fadeDown, slide } from '../../app.animations';
+
 @Component({
   selector: 'c-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  styleUrls: ['./task.component.scss'],
+  animations:[ fadeDown, slide ],
 })
 export class TaskComponent implements OnInit {
     taskName: string;
@@ -16,7 +19,7 @@ export class TaskComponent implements OnInit {
     totalDuration: number = 0;
     minuteHand : any;
     delay: number = 60000;
-
+    showTask: boolean = true;
 
     constructor(private viewContainerRef: ViewContainerRef) { }
 
@@ -30,7 +33,7 @@ export class TaskComponent implements OnInit {
             if(lastTick){
                 lastTick.tockOutAt = DateTime.local();
                 lastTick.duration  = lastTick.tockOutAt.diff(lastTick.tickInAt).as('hours');
-                console.log(lastTick.duration);
+
                 //if the lastTick's duration is less than 1 minute, then remove it from ticks
                 if(lastTick.duration < 0.0166) {
                     this.ticks.pop();
@@ -79,11 +82,14 @@ export class TaskComponent implements OnInit {
     }
 
     removeTask(){
-        this.viewContainerRef
-            .element
-            .nativeElement
-            .parentElement
-            .removeChild(this.viewContainerRef.element.nativeElement);
+        this.showTask = false;
+        setTimeout(() => {
+            this.viewContainerRef
+                .element
+                .nativeElement
+                .parentElement
+                .removeChild(this.viewContainerRef.element.nativeElement);
+        }, 250);
     }
 
 }

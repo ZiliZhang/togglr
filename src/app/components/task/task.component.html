@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="showTask" [@slide]>
     <div class="flex-space-between">
         <h2><input [(ngModel)]="taskName" [ngModelOptions]="{standalone: true}" placeholder="{{taskName ? taskName : 'Task Name'}}" /></h2>
         <div>
@@ -9,7 +9,7 @@
         </div>
     </div>
     <hr>
-    <div class="timer" *ngIf="timer">
+    <div class="timer" *ngIf="timer" [@fadeDown]>
         <span class="big-text">{{timer.hours | round | number:'2.0-0'}}:{{timer.minutes | round | number:'2.0-0' }}</span>
     </div>
 
@@ -21,7 +21,7 @@
                 <button class="btn-primary minus-btn minus-btn--small" (click)="removeTick(tick)"></button>
             </div>
         </div>
-        <textarea elastic rows="1" *ngIf="tick.showNote" [(ngModel)]="tick.note" [ngModelOptions]="{standalone: true}" placeholder="{{tick.note ? tick.note : 'Note'}}"></textarea>
+        <textarea elastic rows="1" *ngIf="tick.showNote" [(ngModel)]="tick.note" [ngModelOptions]="{standalone: true}" placeholder="{{tick.note ? tick.note : 'Note'}}" [@fadeDown]></textarea>
     </div>
     <div class="flex-space-between total" *ngIf="totalDuration">
         <h2>total</h2>
