@@ -6,19 +6,30 @@ const url = require('url');
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
+//Disable Hardware Acceleration for transparent window on platfrom other than macOS
+//app.disableHardwareAcceleration();
+//app.commandLine.appendArgument('--enable-transparent-visuals --disable-gpu');
+
 const createWindow = () => {
     // set timeout to render the window not until the Angular
     // compiler is ready to show the project
     setTimeout(() => {
         // Create the browser window.
-        win = new BrowserWindow({
+        let browserOptions = {
             width: 400,
             height: 1000,
             minWidth: 400,
             transparent: true,
-            frame: true,
-            hasShadow: false
-        });
+            hasShadow: false,
+            resizable: false
+        };
+
+        //set window to be frameless on macOS
+        if (process.platform == 'darwin') {
+            browserOptions.frame = false;
+        }
+
+        win = new BrowserWindow(browserOptions);
 
         // and load the app.
         win.loadURL(url.format({
@@ -27,7 +38,7 @@ const createWindow = () => {
             slashes: true
         }));
 
-        win.webContents.openDevTools();
+        //win.webContents.openDevTools();
 
         // Emitted when the window is closed.
         win.on('closed', () => {

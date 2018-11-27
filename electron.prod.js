@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -6,18 +6,27 @@ const url = require('url');
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
+//Disable Hardware Acceleration for transparent window on platfrom other than macOS
+//app.disableHardwareAcceleration();
+//app.commandLine.appendArgument('--enable-transparent-visuals --disable-gpu');
+
 const createWindow = () => {
     // Create the browser window.
-    win = new BrowserWindow({
+    let browserOptions = {
         width: 400,
         height: 1000,
         minWidth: 400,
         transparent: true,
-        frame: true,
         hasShadow: false,
-        show: false
+        resizable: false
+    };
 
-    });
+    //set window to be frameless on macOS
+    if (process.platform == 'darwin') {
+        browserOptions.frame = false;
+    }
+
+    win = new BrowserWindow(browserOptions);
 
     // and load the index.html of the app.
     win.loadURL(url.format({
@@ -27,7 +36,7 @@ const createWindow = () => {
     }));
 
     //win.webContents.openDevTools();
-    
+
     win.once('ready-to-show', ()=>{
         win.show();
     });
@@ -41,10 +50,37 @@ const createWindow = () => {
     });
 }
 
+const template = [{
+    label: "Togglr",
+    submenu: [
+        { label: "About Togglr", selector: "orderFrontStandardAboutPanel:" },
+        { type: "separator" },
+        { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
+    ]}, {
+    label: "Edit",
+    submenu: [
+        { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+        { label: "Redo", accelerator: "Shift+CmdOrCtrl+Z", selector: "redo:" },
+        { type: "separator" },
+        { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+        { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+        { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+        { label: "Select All", accelerator: "CmdOrCtrl+A", selector: "selectAll:" }
+    ]}
+];
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+    if (process.platform !== 'darwin') {
+        setTimeout(createWindow, 1000);
+    } else {
+        createWindow;
+    }
+
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

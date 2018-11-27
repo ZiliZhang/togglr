@@ -10,21 +10,17 @@ import { Tick } from '../../classes/tick';
 })
 export class TaskComponent implements OnInit {
     taskName: string;
-    now: DateTime = DateTime.local();
     ticks: Tick[] = [];
     timer: any;
     totalDuration: number = 0;
     active: boolean = false;
     minuteHand : any;
+    delay: number = 1000;
 
 
     constructor(private viewContainerRef: ViewContainerRef) { }
 
-    ngOnInit(): void {
-        setInterval(()=> {
-            this.now = DateTime.local();
-        }, 60000);
-    }
+    ngOnInit(): void {}
 
     track(event: MouseEvent): void {
         event.preventDefault();
@@ -32,7 +28,7 @@ export class TaskComponent implements OnInit {
             this.active = false;
             let lastTick = this.ticks[this.ticks.length - 1];
             if(lastTick){
-                lastTick.tockOutAt = this.now;
+                lastTick.tockOutAt = DateTime.local();
                 lastTick.duration  = lastTick.tockOutAt.diff(lastTick.tickInAt, 'hours').hours - 0;
                 this.totalDuration += lastTick.duration;
 
@@ -47,17 +43,17 @@ export class TaskComponent implements OnInit {
         } else {
             this.active = true;
             let tick = new Tick;
-            tick.tickInAt = this.now;
+            tick.tickInAt = DateTime.local();
             this.ticks.push(tick);
             this.startTimer(tick);
         }
     }
 
     startTimer(tick: Tick): void {
-        this.timer = this.now.diff(tick.tickInAt, ['hours', 'minutes']);
+        this.timer = DateTime.local().diff(tick.tickInAt, ['hours','minutes']);
         this.minuteHand = setInterval(()=> {
-            if(this.active) this.timer = this.now.diff(tick.tickInAt, ['hours','minutes']);
-        }, 60000);
+            if(this.active) this.timer = DateTime.local().diff(tick.tickInAt, ['hours','minutes']);
+        }, this.delay);
     }
 
     endTimer(): void {
