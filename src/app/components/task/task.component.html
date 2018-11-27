@@ -21,10 +21,10 @@
                 <button class="btn-primary minus-btn minus-btn--small" (click)="removeTick(tick)"></button>
             </div>
         </div>
-        <textarea elastic *ngIf="tick.showNote" [(ngModel)]="tick.note" [ngModelOptions]="{standalone: true}" placeholder="{{tick.note ? tick.note : 'Note'}}"></textarea>
+        <textarea elastic rows="1" *ngIf="tick.showNote" [(ngModel)]="tick.note" [ngModelOptions]="{standalone: true}" placeholder="{{tick.note ? tick.note : 'Note'}}"></textarea>
     </div>
     <div class="flex-space-between total" *ngIf="totalDuration">
         <h2>total</h2>
-        <div><span class="big-text">{{totalDuration | number : '1.2-2'}}</span> hours</div>
+        <div><span class="big-text">{{totalDuration | number: '1.2-2'}}</span> hours</div>
     </div>
 </div>
