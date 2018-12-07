@@ -25,7 +25,9 @@ export class TaskService {
             .rootNodes[0] as HTMLElement;
 
         // 4. Append DOM element to the body
-        document.querySelector('.tasks').appendChild(domElem);
+        let tasks = document.querySelector('.tasks');
+        tasks.insertBefore(domElem, tasks.childNodes[0]);
+        //tasks.appendChild(domElem);
     }
 
     //remove the component from the component tree and from the DOM
@@ -37,7 +39,7 @@ export class TaskService {
 
         //Detach the view from the ApplicationRef
         this.appRef.detachView(componentRef.hostView);
-        
+
         //Destroy the Component Ref. This will automatically remove the DOM element from the document.
         componentRef.destroy();
     }

@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewContainerRef, Input } from '@angular/core';
+import { Component, OnInit, ViewContainerRef, ViewChild } from '@angular/core';
 import { DateTime } from 'luxon';
 
 import { Tick } from '../../classes/tick';
 
-import { fadeDown, slide } from '../../app.animations';
+import { fadeDown, fadeUp, fadeOut, slide } from '../../app.animations';
 
 @Component({
   selector: 'c-task',
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.scss'],
-  animations:[ fadeDown, slide ],
+  animations:[ fadeDown, fadeUp, fadeOut, slide ],
 })
 export class TaskComponent implements OnInit {
     taskName: string;
@@ -20,6 +20,9 @@ export class TaskComponent implements OnInit {
     minuteHand : any;
     delay: number = 60000;
     showTask: boolean = true;
+    copied: boolean = false;
+
+    @ViewChild('notes') notesForm;
 
     constructor(private viewContainerRef: ViewContainerRef) { }
 
@@ -42,7 +45,10 @@ export class TaskComponent implements OnInit {
                 }
             }
             //if the total duration is less than 1 minute, then clean ticks
-            if(this.totalDuration < 0.0166) this.ticks = [];
+            if(this.totalDuration < 0.0166) {
+                this.ticks = [];
+                this.notesForm.control.markAsPristine();
+            }
 
             this.endTimer();
         } else {
@@ -66,7 +72,7 @@ export class TaskComponent implements OnInit {
         clearInterval(this.minuteHand);
     }
 
-    removeTick(tick: Tick){
+    removeTick(tick: Tick) {
         let index = this.ticks.indexOf(tick);
         if(index > -1) {
             this.totalDuration -= tick.duration;
@@ -81,7 +87,7 @@ export class TaskComponent implements OnInit {
         }
     }
 
-    removeTask(){
+    removeTask() {
         this.showTask = false;
         setTimeout(() => {
             this.viewContainerRef
@@ -90,6 +96,31 @@ export class TaskComponent implements OnInit {
                 .parentElement
                 .removeChild(this.viewContainerRef.element.nativeElement);
         }, 250);
+    }
+
+    copyToClipboard(): void {
+        let plainText: string = '';
+        for(let tick of this.ticks) {
+            if(tick.note){
+                let note = tick.note.replace(/\r\n|\r|\n/g, '\n  ');
+                plainText += `* ${note} \n`;
+            }
+        }
+
+        function listener(e) {
+            e.clipboardData.setData('text/plain', plainText);
+            e.preventDefault();
+        }
+
+        document.addEventListener('copy', listener);
+        document.execCommand('copy');
+        document.removeEventListener('copy', listener);
+
+        this.copied = true;
+        setTimeout(() => {
+            this.copied = false;
+        }, 1500);
+
     }
 
 }

@@ -16,7 +16,6 @@ body {
 
 h1, h2, h3 {
     font-family: 'Josefin Sans', Arial, Helvetica, sans-serif;
-    text-transform: uppercase;
     -webkit-margin-before: 0.5rem;
     -webkit-margin-after: 0.5rem;
 }
@@ -25,7 +24,8 @@ h1 {
     font-size: 2rem;
 }
 
-h2{
+h2 {
+    text-transform: uppercase;
     font-size: 1.25rem;
     font-weight: $semibold;
 }
@@ -41,7 +41,7 @@ hr{
     border-top: 1px solid white;
 }
 
-*, *::before, *::after{
+*, *::before, *::after {
     box-sizing: border-box;
     outline: none;
 }
@@ -56,9 +56,9 @@ a {
 }
 
 button {
-    cursor: pointer;
     outline: none;
     border: none;
+    cursor: pointer;
 }
 
 .flex-space-between {
@@ -67,16 +67,8 @@ button {
     align-items: center;
 }
 
-%circle-btn {
-    border-radius: 50%;
-    font-family: 'Open Sans', sans-serif;
-    color: white;
-    transition: background-color .2s ease-in-out;
-    padding: 0;
-}
-
 .btn-primary {
-    @extend %circle-btn;
+    color: white;
     background-color: $white-translucent;
 
     &:hover{
@@ -85,16 +77,25 @@ button {
 }
 
 .btn-secondary {
-    @extend %circle-btn;
+    color: white;
     border: 1px solid $white;
-    background: none;
+    background-color: transparent;
+    transition: background-color .2s ease-in-out;
+
     &:hover{
         background-color: $white-translucent;
     }
 }
 
+.plus-btn {
+    @extend %circle-btn;
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+}
+
 .minus-btn {
-    position: relative;
+    @extend %circle-btn;
     width: 20px;
     height: 20px;
 
@@ -104,13 +105,37 @@ button {
     }
 
     &:before{
-        position:absolute;
-        content:'';
+        position: absolute;
+        content: '';
         top: 50%;
         left: 50%;
         width: 40%;
         height: 2px;
         background-color: $white;
         transform: translate(-50%, -50%);
+    }
+}
+
+.cross-btn {
+    @extend %circle-btn;
+    width: 20px;
+    height: 20px;
+
+    &::before, &::after{
+        position: absolute;
+        content: '';
+        top: 50%;
+        left: 50%;
+        width: 50%;
+        height: 2px;
+        background-color: $white;
+
+    }
+
+    &::before {
+        transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    &::after {
+        transform: translate(-50%, -50%) rotate(45deg) ;
     }
 }

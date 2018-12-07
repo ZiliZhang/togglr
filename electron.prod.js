@@ -9,9 +9,9 @@ let win;
 function createWindow () {
     // Create the browser window.
     win = new BrowserWindow({
-        width: 400,
+        width: 425,
         height: 1000,
-        minWidth: 400,
+        minWidth: 425,
         transparent: true,
         frame: false,
         hasShadow: false,
@@ -41,6 +41,7 @@ const template = [{
     submenu: [
         { label: "About Togglr", selector: "orderFrontStandardAboutPanel:" },
         { type: "separator" },
+        { label: "Minimize", accelerator: "CmdOrCtrl+M", role: "minimize" },
         { label: "Quit", accelerator: "Command+Q", click: function() { app.quit(); }}
     ]}, {
     label: "Edit",

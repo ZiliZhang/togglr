@@ -1,7 +1,8 @@
 @import '../../../assets/styles/scss/_variables';
 :host{
     display: block;
-    margin-bottom: 50px;
+    padding-bottom: 50px;
+    position: relative;
 }
 
 input, textarea {
@@ -11,7 +12,7 @@ input, textarea {
     color: white;
     &::placeholder{
         color: $white-dull;
-      }
+    }
 }
 
 input {
@@ -19,14 +20,42 @@ input {
     height: 100%;
     font-size: inherit;
     font-family: 'Josefin Sans', Arial, Helvetica, sans-serif;
-    text-transform: uppercase;
-    width: 320px;
+    width: 300px;
 }
 
 textarea {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
     font-size: 0.85rem;
     resize: none;
+}
+
+.controls {
+    display: flex;
+}
+
+.copy-btn{
+    @extend %circle-btn;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    text-align: center;
+
+    svg{
+        display: inline-block;
+        height: 11px;
+        path {
+            fill: $white;
+        }
+
+        .check {
+            opacity: 0;
+            transition: opacity .2s ease-out;
+
+            &.show {
+                opacity: 1;
+            }
+        }
+    }
 }
 
 .switch__slider {
@@ -67,25 +96,37 @@ textarea {
     }
 }
 
+.minus-btn, .cross-btn {
+    margin-left: 10px;
+}
+
+.minus-btn--small {
+    vertical-align: middle;
+}
+
 .timer {
     text-align: center;
     letter-spacing: 10px;
-    padding: 20px 0;
+    padding: 0.5em 0 1em;
 }
 
 .tick {
     margin-bottom: 5px;
 }
 
-.total h2{
+.total h2 {
     font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 }
 
-.minus-btn {
+.message {
+    position: absolute;
     display: inline-block;
-    margin-left: 10px;
-}
-
-.minus-btn--small{
-    vertical-align: middle;
+    width: 140px;
+    text-align: center;
+    bottom: 20px;
+    left: calc(50% - 70px);
+    padding: 5px 0;
+    font-size: 0.8rem;
+    background-color: $white-translucent;
+    border-radius: 20px;
 }
