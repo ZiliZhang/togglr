@@ -19,12 +19,12 @@ export const fadeDown = trigger('fadeDown', [
 
 export const fadeUp = trigger('fadeUp', [
     transition(':enter', [
-        style({transform: 'translateY(100%)', opacity: 0}),
+        style({transform: 'translateY(50%)', opacity: 0}),
         animate(`0.25s cubic-bezier(.47,.82,.7,1)`)
     ]),
     transition(':leave', [
         animate(`0.25s cubic-bezier(.47,.82,.7,1)`),
-        style({transform: 'translateY(30%)', opacity: 0})
+        style({transform: 'translateY(50%)', opacity: 0})
     ])
 ]);
 

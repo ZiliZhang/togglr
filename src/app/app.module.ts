@@ -5,14 +5,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { TaskComponent } from './components/task/task.component';
-import { RoundPipe } from './pipes/round.pipe';
+import { FloorPipe } from './pipes/floor.pipe';
 import { ElasticDirective } from './directives/elastic.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     TaskComponent,
-    RoundPipe,
+    FloorPipe,
     ElasticDirective
   ],
   imports: [

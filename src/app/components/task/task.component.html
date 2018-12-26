@@ -2,7 +2,7 @@
     <div class="flex-space-between">
         <h2><input [(ngModel)]="taskName" [ngModelOptions]="{standalone: true}" placeholder="{{taskName ? taskName : 'Task Name'}}" /></h2>
         <div class="controls">
-            <button class="btn-primary copy-btn" *ngIf="notes.dirty" (click)="copyToClipboard()" [@fadeOut]>
+            <button class="btn-primary btn-circle copy-btn" *ngIf="notes.dirty" (click)="copyToClipboard()" [@fadeOut]>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 319.998 415.999">
                     <path d="M287.999 64h-44.423c-5.926-6.583-13.538-11.62-22.284-14.136-7.368-2.118-13.038-7.788-15.156-15.156C200.371 14.664 181.898 0 160 0c-21.898 0-40.37 14.664-46.136 34.707-2.121 7.376-7.805 13.039-15.181 15.164-8.738 2.518-16.342 7.55-22.262 14.129H32C14.327 64 0 78.327 0 96v287.999c0 17.673 14.326 32 31.999 32h255.999c17.674 0 32-14.327 32-32V96c.001-17.673-14.326-32-31.999-32zM160.205 32c8.837 0 16 7.163 16 16 0 8.836-7.163 16-16 16s-16-7.164-16-16c0-8.837 7.163-16 16-16zm127.794 351.999H32V96h32v32h192V96h31.999v287.999z"/>
                     <path class="check" [class.show]="copied" d="M94.752 241.257L72.124 263.9l59.758 58.954 111.599-111.598-22.628-22.629-88.971 88.974z"/>
@@ -12,20 +12,26 @@
             <label class="switch" (click)="track($event)" [class.active]="active">
                 <span class="switch__slider"></span>
             </label>
-            <button class="btn-primary cross-btn" (click)="removeTask()"></button>
+            <button class="btn-primary btn-circle cross-btn" (click)="removeTask()"></button>
         </div>
     </div>
     <hr>
     <div class="timer" *ngIf="timer" [@fadeDown]>
-        <span class="big-text">{{timer.hours | round | number:'2.0-0'}}:{{timer.minutes | round | number:'2.0-0' }}</span>
+        <span class="big-text">{{timer.hours | floor | number:'2.0-0'}}:{{timer.minutes | floor | number:'2.0-0' }}</span>
     </div>
     <form #notes="ngForm" [ngFormOptions]="{updateOn: 'blur'}">
-        <div *ngFor="let tick of ticks;let i = index;" class="tick" [@fadeDown]>
-            <div class="flex-space-between" (click)="tick.showNote = !tick.showNote">
-                <span>{{tick.tickInAt | date:'shortTime'}} - {{tick.tockOutAt | date:'shortTime'}}</span>
-                <div *ngIf="tick.duration">
-                    <span>{{tick.duration | number:'1.2-2'}} hours</span>
-                    <button class="btn-primary minus-btn minus-btn--small" (click)="removeTick(tick)"></button>
+        <div *ngFor="let tick of ticks; let i = inde;" class="tick" [@fadeDown]>
+            <div class="flex-space-between">
+                <span><input [ngModel]="tick.tickInAt | date:'HH:mm'" (ngModelChange)="updateTickIn(tick, $event)" (blur)="updateTimer(tick)" [ngModelOptions]="{standalone: true, updateOn: 'blur'}" [placeholder]="tick.tickInAt"/> - <input [ngModel]="tick.tockOutAt | date:'HH:mm'" (ngModelChange)="updateTockOut(tick, $event)" (blur)="updateTickDuration(tick)" [ngModelOptions]="{standalone: true, updateOn: 'blur'}" [placeholder]="tick.tockOutAt ? tick.tockOutAt:''"/></span>
+                <div>
+                    <span *ngIf="tick.duration">{{tick.duration | number:'1.2-2'}} hours</span>
+                    <button class="btn-primary btn-circle btn-circle--small edit-btn" (click)="tick.showNote = !tick.showNote">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380.832 380.832">
+                            <path d="M320.159 30.864h-47.243V12.5c0-6.904-5.597-12.5-12.5-12.5s-12.5 5.596-12.5 12.5v18.364h-45V12.5c0-6.904-5.597-12.5-12.5-12.5s-12.5 5.596-12.5 12.5v18.364h-45V12.5c0-6.904-5.597-12.5-12.5-12.5s-12.5 5.596-12.5 12.5v18.364H60.673c-6.903 0-12.5 5.597-12.5 12.5v324.968c0 6.903 5.597 12.5 12.5 12.5h259.486c6.903 0 12.5-5.597 12.5-12.5V43.364c0-6.903-5.597-12.5-12.5-12.5zm-12.5 324.968H73.173V55.864h34.743v14.59c0 6.904 5.597 12.5 12.5 12.5s12.5-5.596 12.5-12.5v-14.59h45v14.59c0 6.904 5.597 12.5 12.5 12.5s12.5-5.596 12.5-12.5v-14.59h45v14.59c0 6.904 5.597 12.5 12.5 12.5s12.5-5.596 12.5-12.5v-14.59h34.743v299.968z"/>
+                            <path class="note" [class.show]="tick.note" d="M264.416 139.758h-148c-6.903 0-12.5 5.597-12.5 12.5s5.597 12.5 12.5 12.5h148c6.903 0 12.5-5.597 12.5-12.5s-5.597-12.5-12.5-12.5zM264.416 209.758h-148c-6.903 0-12.5 5.598-12.5 12.5 0 6.903 5.597 12.5 12.5 12.5h148c6.903 0 12.5-5.597 12.5-12.5s-5.597-12.5-12.5-12.5zM264.416 279.758h-148c-6.903 0-12.5 5.598-12.5 12.5 0 6.903 5.597 12.5 12.5 12.5h148c6.903 0 12.5-5.597 12.5-12.5s-5.597-12.5-12.5-12.5z"/>
+                        </svg>
+                    </button>
+                    <button *ngIf="tick.duration" class="btn-primary btn-circle btn-circle--small minus-btn" (click)="removeTick(tick)"></button>
                 </div>
             </div>
             <textarea *ngIf="tick.showNote" [@fadeDown] elastic rows="1" [(ngModel)]="tick.note" name="note-{{i}}"  #note='ngModel' (blur)="tick.note ? '' : note.control.markAsPristine();" (focusout)="tick.note ? '':tick.showNote = false;" placeholder="{{tick.note ? tick.note : 'Note'}}"></textarea>
@@ -35,6 +41,5 @@
         <h2>total</h2>
         <div><span class="big-text">{{totalDuration | number: '1.2-2'}}</span> hours</div>
     </div>
+    <div class="message" *ngIf="copied" [@fadeUp]>Copied to clipboard</div>
 </div>
-
-<div class="message" *ngIf="copied" [@fadeUp]>Copied to clipboard</div>

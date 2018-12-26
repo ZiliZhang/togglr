@@ -21,10 +21,13 @@ export class TaskComponent implements OnInit {
     delay: number = 60000;
     showTask: boolean = true;
     copied: boolean = false;
+    currentTick: Tick;
+
+    readonly oneMinute: number = 1/60;
 
     @ViewChild('notes') notesForm;
 
-    constructor(private viewContainerRef: ViewContainerRef) { }
+    constructor(private viewContainerRef: ViewContainerRef) {}
 
     ngOnInit(): void {}
 
@@ -35,41 +38,65 @@ export class TaskComponent implements OnInit {
             let lastTick = this.ticks[this.ticks.length - 1];
             if(lastTick){
                 lastTick.tockOutAt = DateTime.local();
-                lastTick.duration  = lastTick.tockOutAt.diff(lastTick.tickInAt).as('hours');
-
-                //if the lastTick's duration is less than 1 minute, then remove it from ticks
-                if(lastTick.duration < 0.0166) {
-                    this.ticks.pop();
-                } else {
-                    this.totalDuration += lastTick.duration;
-                }
+                this.updateTickDuration(lastTick);
             }
-            //if the total duration is less than 1 minute, then clean ticks
-            if(this.totalDuration < 0.0166) {
-                this.ticks = [];
-                this.notesForm.control.markAsPristine();
-            }
-
             this.endTimer();
         } else {
             this.active = true;
             let tick = new Tick;
             tick.tickInAt = DateTime.local();
             this.ticks.push(tick);
-            this.startTimer(tick);
+            this.currentTick = tick;
+            this.setTimer();
         }
     }
 
-    startTimer(tick: Tick): void {
-        this.timer = DateTime.local().diff(tick.tickInAt, ['hours','minutes']);
+    setTimer(): void {
+        this.timer = DateTime.local().diff(this.currentTick.tickInAt, ['hours','minutes']);
         this.minuteHand = setInterval(()=> {
-            if(this.active) this.timer = DateTime.local().diff(tick.tickInAt, ['hours','minutes']);
+            if(this.active) this.timer = DateTime.local().diff(this.currentTick.tickInAt, ['hours','minutes']);
         }, this.delay);
     }
 
     endTimer(): void {
         this.timer = null;
         clearInterval(this.minuteHand);
+    }
+
+    updateTickIn(tick: Tick, e){
+        tick.tickInAt = tick.tickInAt.set({hour: parseInt(e.split(':')[0]),minute: parseInt(e.split(':')[1])});
+        if(tick.tockOutAt) this.updateTickDuration(tick);
+    }
+
+    updateTimer(tick: Tick){
+        if(tick == this.currentTick) {
+            this.currentTick = tick;
+            this.setTimer();
+        }
+    }
+
+    updateTockOut(tick: Tick, e){
+        tick.tockOutAt = tick.tockOutAt.set({hour: parseInt(e.split(':')[0]),minute: parseInt(e.split(':')[1])});
+    }
+
+    updateTickDuration(tick:Tick){
+        //subtract old duration from totalDuration
+        if(tick.duration) this.totalDuration -= tick.duration;
+        //get/re-calculate duration
+        tick.duration  = tick.tockOutAt.diff(tick.tickInAt).as('hours');
+
+        //if the lastTick's duration is less than 1 minute, then remove it from ticks
+        if(tick.duration < this.oneMinute) {
+            this.ticks.pop();
+        } else {
+            this.totalDuration += tick.duration;
+        }
+
+        //if the total duration is less than 1 minute, then clean ticks
+        if(this.totalDuration < this.oneMinute) {
+            this.ticks = [];
+            this.notesForm.control.markAsPristine();
+        }
     }
 
     removeTick(tick: Tick) {

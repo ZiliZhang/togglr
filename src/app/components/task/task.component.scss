@@ -1,7 +1,7 @@
 @import '../../../assets/styles/scss/_variables';
 :host{
     display: block;
-    padding-bottom: 50px;
+    margin-bottom: 50px;
     position: relative;
 }
 
@@ -34,9 +34,6 @@ textarea {
 }
 
 .copy-btn{
-    @extend %circle-btn;
-    width: 20px;
-    height: 20px;
     margin-right: 10px;
     text-align: center;
 
@@ -58,6 +55,25 @@ textarea {
     }
 }
 
+.edit-btn{
+    text-align: center;
+    margin-left: 10px;
+    svg{
+        display: inline-block;
+        height: 8px;
+        fill: $white;
+        margin-bottom: 1px;
+
+        .note {
+            opacity: 0;
+            transition: opacity .2s ease-out;
+
+            &.show {
+                opacity: 1;
+            }
+        }
+    }
+}
 .switch__slider {
     position: absolute;
     top: 0;
@@ -100,18 +116,23 @@ textarea {
     margin-left: 10px;
 }
 
-.minus-btn--small {
+.btn-circle--small {
     vertical-align: middle;
 }
 
 .timer {
     text-align: center;
-    letter-spacing: 10px;
+    letter-spacing: 5px;
     padding: 0.5em 0 1em;
 }
 
 .tick {
     margin-bottom: 5px;
+
+    input {
+        font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+        width: 53px;
+    }
 }
 
 .total h2 {
@@ -123,7 +144,7 @@ textarea {
     display: inline-block;
     width: 140px;
     text-align: center;
-    bottom: 20px;
+    bottom: -30px;
     left: calc(50% - 70px);
     padding: 5px 0;
     font-size: 0.8rem;

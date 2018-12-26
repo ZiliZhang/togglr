@@ -12,7 +12,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     color: $white;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 
 h1, h2, h3 {
@@ -88,15 +88,12 @@ button {
     }
 }
 
-.plus-btn {
-    @extend %circle-btn;
-    width: 40px;
-    height: 40px;
-    font-size: 25px;
-}
-
-.minus-btn {
-    @extend %circle-btn;
+.btn-circle{
+    display: inline-block;
+    position: relative;
+    border-radius: 50%;
+    font-family: 'Open Sans', sans-serif;
+    padding: 0;
     width: 20px;
     height: 20px;
 
@@ -104,7 +101,15 @@ button {
         width: 14px;
         height: 14px;
     }
+}
 
+.plus-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 25px;
+}
+
+.minus-btn {
     &:before{
         position: absolute;
         content: '';
@@ -118,10 +123,6 @@ button {
 }
 
 .cross-btn {
-    @extend %circle-btn;
-    width: 20px;
-    height: 20px;
-
     &::before, &::after{
         position: absolute;
         content: '';

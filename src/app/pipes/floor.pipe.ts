@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'round'
+  name: 'floor'
 })
-export class RoundPipe implements PipeTransform {
+export class FloorPipe implements PipeTransform {
 
   transform(value: number): number {
-    return Math.round(value);
+    return Math.floor(value);
   }
 
 }
