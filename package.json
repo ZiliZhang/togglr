@@ -1,6 +1,6 @@
 {
   "name": "togglr",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "Zili Zhang",
   "description": "A simple Desktop time tracking widget.",
   "main": "electron.prod.js",
